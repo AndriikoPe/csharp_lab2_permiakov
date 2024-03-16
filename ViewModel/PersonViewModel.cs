@@ -1,7 +1,9 @@
 ﻿using permiakov_lab2.Command;
+using permiakov_lab2.Model;
 using System;
 using System.ComponentModel;
-using System.Windows.Input;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace permiakov_lab2.ViewModel
 {
@@ -52,8 +54,40 @@ namespace permiakov_lab2.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void ShowStatistics() {
-            
+        private async void ShowStatistics()
+        {
+            await Task.Run(() =>
+            {
+                DateTime dob = DateOfBirth.Value;
+                DateTime today = DateTime.Today;
+                int age = today.Year - dob.Year;
+
+                if (dob.Date > today.AddYears(-age)) age--;
+
+                if (dob > today || age > 135)
+                {
+                    _ = MessageBox.Show("Invalid age. Please enter a correct date of birth.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (dob.Month == today.Month && dob.Day == today.Day)
+                {
+                    _ = MessageBox.Show("Happy Birthday!", "Congratulations", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+
+                Person person = new(FirstName, LastName, EmailAddress, dob);
+
+                _ = MessageBox.Show(
+                    $"Name: {person.FirstName}\n" +
+                    $"Surname: {person.LastName}\n" +
+                    $"Email: {person.EmailAddress}\n" +
+                    $"Date of Birth: {person.DateOfBirth.ToShortDateString()}\n" +
+                    $"Is Adult: {person.IsAdult}\n" +
+                    $"Is Birthday: {person.IsBirthday}\n" +
+                    $"Chinese Sign: {person.ChineseSign}\n" +
+                    $"Sun Sign: {person.SunSign}",
+                    "Person Details", MessageBoxButton.OK, MessageBoxImage.Information);
+            });
         }
     }
 }
