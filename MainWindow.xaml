@@ -3,10 +3,43 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:permiakov_lab2"
+        xmlns:vm="clr-namespace:permiakov_lab2.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Window.DataContext>
+        <vm:PersonViewModel/>
+    </Window.DataContext>
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-    </Grid>
+        <StackPanel Grid.Row="0" Orientation="Vertical" Margin="0,5,0,0">
+            <Label Content="First Name" />
+            <TextBox Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" Height="25"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0,5,0,0">
+            <Label Content="Last Name" />
+            <TextBox Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" Height="25"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Vertical" Margin="0,5,0,0">
+            <Label Content="Email Address" />
+            <TextBox Text="{Binding EmailAddress, UpdateSourceTrigger=PropertyChanged}" Height="25"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Orientation="Vertical" Margin="0,5,0,0">
+            <Label Content="Date of Birth" />
+            <DatePicker SelectedDate="{Binding DateOfBirth, UpdateSourceTrigger=PropertyChanged}" Height="25"/>
+        </StackPanel>
+
+        <Button Grid.Row="4" Command="{Binding ProceedCommand}" Content="Proceed" Margin="0,20,0,0" IsEnabled="{Binding CanProceed}" Height="35" HorizontalAlignment="Right" Width="100"/>
+
+    </Grid> 
 </Window>
